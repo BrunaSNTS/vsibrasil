@@ -3,13 +3,13 @@ package com.example.demo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import java.util.List;
+import java.util.Set;
 
-public class javatestTest {
+public class JavaTestTest {
 
     @Test
     public void testEntradaValidaComABC() {
-        List<String> resultado = javatest.processarEntrada("abc");
+        Set<String> resultado = JavaTest.processarEntrada("abc");
 
         assertEquals(6, resultado.size());
         assertTrue(resultado.contains("abc"));
@@ -23,7 +23,7 @@ public class javatestTest {
     @Test
     public void testEntradaVazia() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            javatest.processarEntrada(""); // Teste para entrada vazia
+            JavaTest.processarEntrada(""); // Teste para entrada vazia
         });
 
         assertEquals("Entrada inválida. Certifique-se de digitar apenas letras.", exception.getMessage());
@@ -32,7 +32,7 @@ public class javatestTest {
     @Test
     public void testEntradaComNumero() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            javatest.processarEntrada("a2c"); // Teste para entrada com números
+            JavaTest.processarEntrada("a2c"); // Teste para entrada com números
         });
 
         assertEquals("Entrada inválida. Certifique-se de digitar apenas letras.", exception.getMessage());
@@ -41,7 +41,7 @@ public class javatestTest {
     @Test
     public void testEntradaComCaracteresEspeciais() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            javatest.processarEntrada("a*c"); // Teste para entrada com caracteres especiais
+            JavaTest.processarEntrada("a*c"); // Teste para entrada com caracteres especiais
         });
 
         assertEquals("Entrada inválida. Certifique-se de digitar apenas letras.", exception.getMessage());
@@ -49,18 +49,40 @@ public class javatestTest {
 
     @Test
     public void testEntradaComUmaLetra() {
-        List<String> resultado = javatest.processarEntrada("a");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            JavaTest.processarEntrada("a"); // Teste para entrada com apenas uma letra
+        });
 
-        assertEquals(1, resultado.size());
-        assertTrue(resultado.contains("a"));
+        assertEquals("Digite mais de uma letra para formar um anagrama.", exception.getMessage());
     }
 
     @Test
     public void testEntradaComDuasLetras() {
-        List<String> resultado = javatest.processarEntrada("ab");
+        Set<String> resultado = JavaTest.processarEntrada("ab");
 
         assertEquals(2, resultado.size());
         assertTrue(resultado.contains("ab"));
         assertTrue(resultado.contains("ba"));
     }
+    @Test
+    public void testEntradaComEspacos() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            JavaTest.processarEntrada("a b"); // Teste para entrada com espaços
+        });
+
+        assertEquals("Entrada inválida. Certifique-se de digitar apenas letras.", exception.getMessage());
+    }
+    @Test
+    public void testEntradaComLetrasMaiusculasEMinusculas() {
+        Set<String> resultado = JavaTest.processarEntrada("AbC");
+
+        assertEquals(6, resultado.size());
+        assertTrue(resultado.contains("AbC"));
+        assertTrue(resultado.contains("ACb"));
+        assertTrue(resultado.contains("bAC"));
+        assertTrue(resultado.contains("bCA"));
+        assertTrue(resultado.contains("CAb"));
+        assertTrue(resultado.contains("CbA"));
+    }
+
 }
